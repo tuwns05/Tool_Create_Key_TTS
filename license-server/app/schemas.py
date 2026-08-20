@@ -42,6 +42,35 @@ class LicenseRequest(BaseModel):
             raise ValueError("paid_at must include an ISO 8601 timezone offset")
         return value
 
+class PaymentRequest(BaseModel):
+    name: str = Field(min_length=1, examples=["Nguyen Van A"])
+    email: EmailStr = Field(examples=["abc@gmail.com"])
+    plan: Literal["monthly", "yearly"]
+    price: int = Field(gt=0, examples=[1990000])
+    mac: str = Field(examples=["F0:68:E3:C4:D1:A1"])
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("name must not be blank")
+        return value
+
+    @field_validator("mac")
+    @classmethod
+    def validate_payment_mac(cls, value: str) -> str:
+        value = value.strip()
+        if not MAC_PATTERN.fullmatch(value):
+            raise ValueError("mac must use the format XX:XX:XX:XX:XX:XX")
+        return value.upper()
+
+
+class PaymentResponse(BaseModel):
+    success: Literal[True] = True
+    id_order: str
+    message: str
+
 
 class LicensePayload(BaseModel):
     v: int = 1

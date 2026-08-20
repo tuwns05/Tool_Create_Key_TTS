@@ -3,4 +3,7 @@
 __pycache__/
 .pytest_cache/
 *.py[cod]
+orders.db
+orders.db-shm
+orders.db-wal
 

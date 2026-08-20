@@ -6,4 +6,5 @@ python-dateutil==2.9.0.post0
 pydantic[email]==2.11.7
 pytest==8.4.1
 httpx==0.28.1
+qrcode[pil]==8.2
 
